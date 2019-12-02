@@ -2,14 +2,13 @@ package com.mybatisplus.demo.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.mybatisplus.demo.model.PeopleTest;
-import com.mybatisplus.demo.model.page.Page;
 import com.mybatisplus.demo.model.payload.EntityPayload;
 import com.mybatisplus.demo.service.PeopleTestService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import java.util.List;
-import javax.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -23,13 +22,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * 前端控制器
+ * 用户测试 前端控制器
  *
  * @author Sun
  * @since 2019-12-02
  * @version v1.0
  */
-@Api(tags = {""})
+@Api(tags = {"用户测试"})
 @Slf4j
 @RestController
 @RequestMapping("//people-test")
@@ -40,11 +39,11 @@ public class PeopleTestController {
   @ApiOperation(value = "查询分页数据")
   @GetMapping(value = "/list")
   public EntityPayload<IPage<PeopleTest>> findListByPage(
-      HttpServletRequest request, PeopleTest peopleTest) {
-    IPage<PeopleTest> page = new Page<>(request);
-
+      @RequestParam(name = "pageNum", defaultValue = "1") int pageNum,
+      @RequestParam(name = "pageSize", defaultValue = "20") int pageSize,
+      PeopleTest peopleTest) {
+    IPage<PeopleTest> page = new Page<>(pageNum, pageSize);
     QueryWrapper<PeopleTest> wrapper = new QueryWrapper(peopleTest);
-
     return new EntityPayload<>(peopleTestService.page(page, wrapper));
   }
 
@@ -65,7 +64,7 @@ public class PeopleTestController {
   /** 删除 */
   @ApiOperation(value = "删除数据")
   @DeleteMapping(value = "/{id}")
-  public EntityPayload<String> delete(@PathVariable @RequestParam("id") String id) {
+  public EntityPayload<String> delete(@PathVariable String id) {
     peopleTestService.removeById(id);
 
     return new EntityPayload<>("ok");

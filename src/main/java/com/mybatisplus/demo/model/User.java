@@ -12,7 +12,7 @@ import lombok.experimental.Accessors;
 
 /**
  * <p>
- * 
+ * 用户表
  * </p>
  *
  * @author Sun
@@ -21,7 +21,7 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@ApiModel(value="User对象", description="")
+@ApiModel(value="User对象", description="用户表")
 public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;

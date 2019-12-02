@@ -1,10 +1,10 @@
 package com.mybatisplus.demo.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.mybatisplus.demo.model.User;
 import com.mybatisplus.demo.model.payload.EntityPayload;
-import com.mybatisplus.demo.model.payload.PageablePayload;
 import com.mybatisplus.demo.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -22,13 +22,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * 前端控制器
+ * 用户表 前端控制器
  *
  * @author Sun
  * @since 2019-12-02
  * @version v1.0
  */
-@Api(tags = {""})
+@Api(tags = {"用户表"})
 @Slf4j
 @RestController
 @RequestMapping("//user")
@@ -38,11 +38,13 @@ public class UserController {
   /** 查询分页数据 */
   @ApiOperation(value = "查询分页数据")
   @GetMapping(value = "/list")
-  public PageablePayload<Page> findListByPage(
+  public EntityPayload<IPage<User>> findListByPage(
       @RequestParam(name = "pageNum", defaultValue = "1") int pageNum,
-      @RequestParam(name = "pageSize", defaultValue = "20") int pageSize) {
+      @RequestParam(name = "pageSize", defaultValue = "20") int pageSize,
+      User user) {
     IPage<User> page = new Page<>(pageNum, pageSize);
-    return null;
+    QueryWrapper<User> wrapper = new QueryWrapper(user);
+    return new EntityPayload<>(userService.page(page, wrapper));
   }
 
   /** 根据id查询 */
@@ -62,7 +64,7 @@ public class UserController {
   /** 删除 */
   @ApiOperation(value = "删除数据")
   @DeleteMapping(value = "/{id}")
-  public EntityPayload<String> delete(@PathVariable @RequestParam("id") String id) {
+  public EntityPayload<String> delete(@PathVariable String id) {
     userService.removeById(id);
 
     return new EntityPayload<>("ok");

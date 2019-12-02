@@ -1,19 +1,16 @@
 package com.mybatisplus.demo.model;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableField;
-import java.io.Serializable;
+import com.baomidou.mybatisplus.annotation.TableId;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import java.io.Serializable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 /**
- * <p>
- * 
- * </p>
+ * 用户测试
  *
  * @author Sun
  * @since 2019-12-02
@@ -21,31 +18,37 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@ApiModel(value="PeopleTest对象", description="")
+@ApiModel(value = "PeopleTest对象", description = "用户测试")
 public class PeopleTest implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-    @TableId(value = "id", type = IdType.AUTO)
-    private Integer id;
+  @ApiModelProperty(value = "主键")
+  @TableId("code")
+  private String code;
 
-    @TableField("name")
-    private String name;
+  @ApiModelProperty(value = "名字")
+  @TableField("name")
+  private String name;
 
-    @TableField("phone")
-    private String phone;
+  @ApiModelProperty(value = "手机号")
+  @TableField("phone")
+  private String phone;
 
-    @TableField("hobby")
-    private String hobby;
+  @ApiModelProperty(value = "爱好")
+  @TableField("hobby")
+  private String hobby;
 
-    @TableField("age")
-    private Integer age;
+  @ApiModelProperty(value = "年龄")
+  @TableField("age")
+  private Integer age;
 
-    @TableField("sex")
-    private String sex;
+  @ApiModelProperty(value = "性别")
+  @TableField("sex")
+  private String sex;
 
-    @TableField("abc")
-    private String abc;
+  @TableField("abc")
+  private String abc;
 
-
+  private transient User user;
 }

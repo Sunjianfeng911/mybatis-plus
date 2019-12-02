@@ -9,9 +9,9 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.mybatisplus.demo.model.payload.EntityPayload;
-import com.mybatisplus.demo.model.payload.PageablePayload;
 import java.util.List;
 <#if restControllerStyle>
   import org.springframework.web.bind.annotation.RestController;
@@ -55,64 +55,68 @@ private ${table.serviceName} ${(table.serviceName)?uncap_first};
 */
 @ApiOperation(value = "查询分页数据")
 @GetMapping(value = "/list")
-public PageablePayload
-<Page> findListByPage(@RequestParam(name = "pageNum", defaultValue = "1") int
-  pageNum,@RequestParam(name = "pageSize", defaultValue = "20") int pageSize){
-  return null;
-  }
+public EntityPayload
+<IPage<${entity}>> findListByPage(@RequestParam(name = "pageNum", defaultValue = "1") int
+pageNum,@RequestParam(name = "pageSize", defaultValue = "20") int pageSize,${entity} ${entity?uncap_first}){
+IPage
+<${entity}> page = new Page<>(pageNum,pageSize);
+QueryWrapper
+<${entity}> wrapper = new QueryWrapper(${entity?uncap_first});
+return new EntityPayload<>(${(table.serviceName)?uncap_first}.page(page, wrapper));
+}
 
 
-  /**
-  * 根据id查询
-  */
-  @ApiOperation(value = "根据id查询数据")
-  @GetMapping(value = "/{id}")
-  public EntityPayload<${entity}> getById(@PathVariable String id){
-  return new EntityPayload<>( ${(table.serviceName)?uncap_first}.getById(id));
-  }
+/**
+* 根据id查询
+*/
+@ApiOperation(value = "根据id查询数据")
+@GetMapping(value = "/{id}")
+public EntityPayload<${entity}> getById(@PathVariable String id){
+return new EntityPayload<>( ${(table.serviceName)?uncap_first}.getById(id));
+}
 
-  /**
-  * 新增
-  */
-  @ApiOperation(value = "新增数据")
-  @PostMapping(value = "/")
-  public EntityPayload<${entity}> add(@RequestBody ${entity} ${entity?uncap_first}){
-  ${(table.serviceName)?uncap_first}.save(${entity?uncap_first});
-  return new EntityPayload<>(${entity?uncap_first});
+/**
+* 新增
+*/
+@ApiOperation(value = "新增数据")
+@PostMapping(value = "/")
+public EntityPayload<${entity}> add(@RequestBody ${entity} ${entity?uncap_first}){
+${(table.serviceName)?uncap_first}.save(${entity?uncap_first});
+return new EntityPayload<>(${entity?uncap_first});
+}
+/**
+* 删除
+*/
+@ApiOperation(value = "删除数据")
+@DeleteMapping(value = "/{id}")
+public EntityPayload
+<String> delete(@PathVariable String id){
+  ${(table.serviceName)?uncap_first}.removeById(id);
+
+  return new EntityPayload<>("ok");
   }
   /**
   * 删除
   */
   @ApiOperation(value = "删除数据")
-  @DeleteMapping(value = "/{id}")
+  @DeleteMapping(value = "/")
   public EntityPayload
-  <String> delete(@PathVariable @RequestParam("id") String id){
-    ${(table.serviceName)?uncap_first}.removeById(id);
+  <String> delete(@RequestParam("ids") List
+    <String> ids){
+      ${(table.serviceName)?uncap_first}.removeByIds(ids);
+      return new EntityPayload<>("ok");
+      }
 
-    return new EntityPayload<>("ok");
-    }
-    /**
-    * 删除
-    */
-    @ApiOperation(value = "删除数据")
-    @DeleteMapping(value = "/")
-    public EntityPayload
-    <String> delete(@RequestParam("ids") List
-      <String> ids){
-        ${(table.serviceName)?uncap_first}.removeByIds(ids);
-        return new EntityPayload<>("ok");
-        }
+      /**
+      * 修改
+      */
+      @ApiOperation(value = "更新数据")
+      @PutMapping(value = "/{id}")
+      public EntityPayload<${entity}> update( @PathVariable String id,
+      @RequestBody ${entity} ${entity?uncap_first}){
+      ${(table.serviceName)?uncap_first}.updateById(${entity?uncap_first});
+      return new EntityPayload<>(${entity?uncap_first});
+      }
 
-        /**
-        * 修改
-        */
-        @ApiOperation(value = "更新数据")
-        @PutMapping(value = "/{id}")
-        public EntityPayload<${entity}> update( @PathVariable String id,
-        @RequestBody ${entity} ${entity?uncap_first}){
-        ${(table.serviceName)?uncap_first}.updateById(${entity?uncap_first});
-        return new EntityPayload<>(${entity?uncap_first});
-        }
-
-        }
-        </#if>
+      }
+      </#if>

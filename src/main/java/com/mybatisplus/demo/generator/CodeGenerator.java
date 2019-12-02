@@ -40,9 +40,9 @@ public class CodeGenerator {
     dsc.setDbType(DbType.MYSQL);
     // todo:配置数据库
     dsc.setUrl(
-        "jdbc:mysql://47.103.100.82:3306/mybatis-plus?useUnicode=true&useSSL=false&characterEncoding=utf8");
+        "jdbc:p6spy:mysql://47.103.100.82:3306/mybatis-plus?serverTimeZone=Shanghai&useUnicode=true&characterEncoding=utf-8&useSSL=false");
     // dsc.setSchemaName("public");
-    dsc.setDriverName("com.mysql.jdbc.Driver");
+    dsc.setDriverName("com.mysql.cj.jdbc.Driver");
     dsc.setUsername("root");
     dsc.setPassword("root");
     mpg.setDataSource(dsc);
