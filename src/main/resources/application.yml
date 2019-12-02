@@ -1,0 +1,35 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: mybatis-plus
+  profiles:
+    active: dev
+mybatis-plus:
+  configuration:
+    mapUnderscoreToCamelCase: true
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.mybatisplus.demo.model
+
+swagger:
+  #  authorization:
+  #    key-name: Authorization
+  #    name: Authorization
+  base-package: com.mybatisplus.demo.controller
+  base-path: /**
+  contact:
+    email: sun@163.com
+    name: sun
+  description: RESTful API
+  exclude-path: /ops/**, /error
+  title: mybatis-plus
+  version: 1.0
+#  enabled: true
+logging:
+  level:
+    com:
+      mybatisplus:
+        demo:
+          mapper: DEBUG
+    root: INFO
