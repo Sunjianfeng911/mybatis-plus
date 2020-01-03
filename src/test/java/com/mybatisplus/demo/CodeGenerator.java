@@ -19,7 +19,7 @@ import java.util.List;
 public class CodeGenerator {
 
   // **********************************************************************************
-  private static String[] TABLES = new String[] {"house_base_info", "people_base_info"};
+  private static String[] TABLES = new String[] {"user"};
   // **********************************************************************************
   // todo:JDBC配置，请修改为你项目的实际配置
   private static final String JDBC_URL =
