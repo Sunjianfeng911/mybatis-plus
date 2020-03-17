@@ -1,6 +1,7 @@
 package com.mybatisplus.demo.model.base;
 
 import com.mybatisplus.demo.model.Enum.ResultCodeEnum;
+import com.mybatisplus.demo.model.constant.CommonConstant;
 import lombok.Data;
 
 @Data
@@ -56,6 +57,17 @@ public class Result<T> {
   public Result(T _data) {
     this.code = ResultCodeEnum.OK.getCode();
     this.data = _data;
+  }
+
+  public static Result<Object> error(int code, String msg) {
+    Result<Object> r = new Result<>();
+    r.setCode(code);
+    r.setMsg(msg);
+    return r;
+  }
+
+  public static Result<Object> error(String msg) {
+    return error(CommonConstant.SC_INTERNAL_SERVER_ERROR_500, msg);
   }
 
   public void setCode(int code) {
